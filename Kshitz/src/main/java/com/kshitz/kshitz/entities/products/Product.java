@@ -1,21 +1,18 @@
 package com.kshitz.kshitz.entities.products;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kshitz.kshitz.audits.Auditable;
+
 import com.kshitz.kshitz.entities.users.Seller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import java.util.Date;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 import java.util.List;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Product extends Auditable<String> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@Document
+public class Product  {
+
+    private String id;
     private String name;
     private String description;
     private String brand;
@@ -28,38 +25,15 @@ public class Product extends Auditable<String> {
     @JsonIgnore
     private Boolean isDeleted=false;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
     Seller seller;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reviewid")
+
     List<ProductReview> productReviews;
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
      Category category;
 
-    @PrePersist
-    public void onPrePersist(){
-        create();
-    }
-    @PreUpdate
-    public void onPreUpdate() {
-        audit();
-    }
-    @PreRemove
-    public void onPreDelete(){
-        audit();
-    }
-    private void audit() {
-        setLastModifiedBy(seller.getUsername());
-        setLastModifiedDate(new Date());
-    }
-    private void create(){
-        setCreatedBy(seller.getUsername());
-        setLastModifiedBy(seller.getUsername());
-        setLastModifiedDate(new Date());
-        setCreatedDate(new Date());
-    }
+
+
 
     public Category getCategory() {
         return category;
@@ -134,11 +108,11 @@ public class Product extends Auditable<String> {
         isActive = active;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

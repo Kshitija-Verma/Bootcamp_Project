@@ -1,16 +1,12 @@
 package com.kshitz.kshitz.entities.addresses;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Document(collection = "address")
 public class Address {
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
+    private String id;
     private String city;
     private String state;
     private String country;
@@ -25,11 +21,11 @@ public class Address {
         this.label = label;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

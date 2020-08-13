@@ -1,17 +1,16 @@
 package com.kshitz.kshitz.entities.users;
 
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 
-@Entity
-@PrimaryKeyJoinColumn(name = "id")
+@Document(collection = "user")
 public class Seller extends User implements Serializable  {
 
     private Integer gst;
 
     private String companyName;
     private String companyContact;
-    @OneToOne
 
 
 

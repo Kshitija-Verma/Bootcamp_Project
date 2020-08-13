@@ -88,13 +88,13 @@ public class LoginController {
     }
 
     @DeleteMapping("/customer/delete-customer-address/{id}")
-    public String deleteAddress(@PathVariable Integer id, Authentication authentication) {
+    public String deleteAddress(@PathVariable String id, Authentication authentication) {
         String username = authentication.getName();
         return customerService.deleteCustomerAddress(id, username);
     }
 
     @PatchMapping("/customer/update-customer-address/{id}")
-    public String updateAddress(@PathVariable Integer id, @RequestBody AddressDto addressDto, Authentication authentication) {
+    public String updateAddress(@PathVariable String id, @RequestBody AddressDto addressDto, Authentication authentication) {
         String username = authentication.getName();
         return customerService.updateCustomerAddress(id, addressDto, username);
     }

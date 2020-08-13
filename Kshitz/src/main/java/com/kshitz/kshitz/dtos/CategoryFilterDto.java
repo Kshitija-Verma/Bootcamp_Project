@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CategoryFilterDto {
     private Map<String,String> categoryMetadataFieldValues;
-    private Map<String,Integer> brands;
+    private Map<String,String> brands;
     private Map<String,Double> productVariations;
 
     public Map<String, String> getCategoryMetadataFieldValues() {
@@ -20,11 +20,11 @@ public class CategoryFilterDto {
         this.categoryMetadataFieldValues = categoryMetadataFieldValues;
     }
 
-    public Map<String,Integer> getBrands() {
+    public Map<String,String> getBrands() {
         return brands;
     }
 
-    public void setBrands(Map<String,Integer> brands) {
+    public void setBrands(Map<String,String> brands) {
         this.brands = brands;
     }
 

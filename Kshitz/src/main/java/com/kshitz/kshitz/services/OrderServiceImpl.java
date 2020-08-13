@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     OrderProductRepository orderProductRepository;
 
     @Override
-    public String addCartItem(Integer productVariationId, CartDto cartDto, String username) {
+    public String addCartItem(String productVariationId, CartDto cartDto, String username) {
         Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(productVariationId);
         if (!productVariationOptional.isPresent()) {
             throw new EntityNotFoundException("No product variation found with this id");
@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderBill buyCart(Integer customerAddressId, String username) {
+    public OrderBill buyCart(String customerAddressId, String username) {
         Optional<CustomerAddress> customerAddressOptional = customerAddressRepository.findById(customerAddressId);
         if (!customerAddressOptional.isPresent()) {
             throw new EntityNotFoundException(ADDRESS_ERROR);
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderBill buyProduct(Integer customerAddressId, OrderProductDto orderProductDto, String username) {
+    public OrderBill buyProduct(String customerAddressId, OrderProductDto orderProductDto, String username) {
         Optional<CustomerAddress> customerAddressOptional = customerAddressRepository.findById(customerAddressId);
         if (!customerAddressOptional.isPresent()) {
             throw new EntityNotFoundException(ADDRESS_ERROR);

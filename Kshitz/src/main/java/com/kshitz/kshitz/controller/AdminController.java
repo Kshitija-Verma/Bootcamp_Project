@@ -30,7 +30,7 @@ public class AdminController {
     }
 
     @PutMapping("/admin/activate-customer/{id}")
-    public ResponseEntity<Object> activateCustomer(@PathVariable Integer id) {
+    public ResponseEntity<Object> activateCustomer(@PathVariable String id) {
         Customer customer1 = adminService.updateCustomer(id);
         URI location = ServletUriComponentsBuilder.
                 fromCurrentRequest()
@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     @PutMapping("/admin/activate-seller/{id}")
-    public ResponseEntity<Object> activateSeller(@PathVariable Integer id) {
+    public ResponseEntity<Object> activateSeller(@PathVariable String id) {
         Seller seller1 = adminService.updateSeller(id);
         URI location = ServletUriComponentsBuilder.
                 fromCurrentRequest()
@@ -52,13 +52,13 @@ public class AdminController {
     }
 
     @PutMapping("/admin/deactivate-customer/{id}")
-    public String deactivateCustomer(@PathVariable Integer id) {
+    public String deactivateCustomer(@PathVariable String id) {
         return adminService.deactivateCustomer(id);
 
     }
 
     @PutMapping("/admin/deactivate-seller/{id}")
-    public String deactivateSeller(@PathVariable Integer id) {
+    public String deactivateSeller(@PathVariable String id) {
         return adminService.deactivateSeller(id);
 
     }

@@ -8,17 +8,17 @@ import com.kshitz.kshitz.entities.products.CategoryMetadataFieldValues;
 import java.util.List;
 
 public interface CategoryService {
-    Integer addCategoryMetadata(CategoryMetadataDto categoryMetadataDto);
+    String addCategoryMetadata(CategoryMetadataDto categoryMetadataDto);
 
     Iterable<CategoryMetadataField> listData();
 
-    Integer addNewCategory(CategoryDto categoryDto);
+    String addNewCategory(CategoryDto categoryDto);
 
-    List<CategoryDisplayDto> viewCategory(Integer id);
+    List<CategoryDisplayDto> viewCategory(String id);
 
     List<Category> viewAllCategory();
 
-    String updateCategory(Integer id, CategoryDto categoryDto);
+    String updateCategory(String id, CategoryDto categoryDto);
 
     String addFieldValueCategory(CategoryfieldDto categoryfieldDto);
 
@@ -26,5 +26,5 @@ public interface CategoryService {
 
     List<Category> viewCustomerCategory();
 
-    CategoryFilterDto viewFilterCategory(Integer id);
+    CategoryFilterDto viewFilterCategory(String id);
 }

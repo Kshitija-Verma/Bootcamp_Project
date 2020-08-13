@@ -22,7 +22,7 @@ public interface CustomerService {
 
     String addNewAddress(AddressDto addressDto, String username);
 
-    String deleteCustomerAddress(Integer id, String username);
+    String deleteCustomerAddress(String id, String username);
 
-    String updateCustomerAddress(Integer id, AddressDto addressDto, String username);
+    String updateCustomerAddress(String id, AddressDto addressDto, String username);
 }

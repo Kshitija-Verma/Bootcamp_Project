@@ -10,7 +10,7 @@ public class ProductDto {
     @NotNull
     private String description;
     @NotNull
-    private Integer categoryId;
+    private String categoryId;
 
     public String getDescription() {
         return description;
@@ -36,11 +36,11 @@ public class ProductDto {
         this.brand = brand;
     }
 
-    public Integer getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 }

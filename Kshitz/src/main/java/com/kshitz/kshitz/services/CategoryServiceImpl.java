@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public Integer addCategoryMetadata(CategoryMetadataDto categoryMetadataDto) {
+    public String addCategoryMetadata(CategoryMetadataDto categoryMetadataDto) {
         CategoryMetadataField categoryMetadataField = new CategoryMetadataField();
         if (categoryMetadataFieldRespository.findByName(categoryMetadataDto.getName()) != null)
             throw new NotUniqueException("name is not unique");
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Integer addNewCategory(CategoryDto categoryDto) {
+    public String addNewCategory(CategoryDto categoryDto) {
         Category category = new Category();
         if (categoryRepository.findByName(categoryDto.getName()) != null)
             throw new NotUniqueException("Name must be unique");
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDisplayDto> viewCategory(Integer id) {
+    public List<CategoryDisplayDto> viewCategory(String id) {
         List<CategoryDisplayDto> categories = new ArrayList<>();
         CategoryDisplayDto categoryDisplayDto = new CategoryDisplayDto();
         Optional<Category> category = categoryRepository.findById(id);
@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (!category1.getId().equals(category1.getCategory().getId())) {
             category1 = category1.getCategory();
             if (category1.getCategory() != null) {
-                Integer parentid = category1.getCategory().getId();
+                String parentid = category1.getCategory().getId();
                 CategoryDisplayDto categoryDisplayDto1 = new CategoryDisplayDto();
                 categoryDisplayDto1.setId(category1.getId());
                 categoryDisplayDto1.setName(category1.getName());
@@ -116,7 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateCategory(Integer id, CategoryDto categoryDto) {
+    public String updateCategory(String id, CategoryDto categoryDto) {
         Optional<Category> category = categoryRepository.findById(id);
         if (!category.isPresent())
             throw new EntityNotFoundException(CATEGORY_ERROR);
@@ -177,7 +177,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public CategoryFilterDto viewFilterCategory(Integer id) {
+    public CategoryFilterDto viewFilterCategory(String id) {
         int flag = 0;
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (!categoryOptional.isPresent()) {
@@ -211,7 +211,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public CategoryFilterDto findResultListIfLeafNode(List<Category> categories, Category category) {
-        Map<String, Integer> brandlist = new HashMap<>();
+        Map<String, String> brandlist = new HashMap<>();
         Map<String, Double> productVariationsMap = new HashMap<>();
         Map<String, String> categoryMetadataFieldValuesMap = new HashMap<>();
         CategoryFilterDto categoryFilterDto = new CategoryFilterDto();
@@ -256,7 +256,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public CategoryFilterDto findResultIfInnerNode(Category category) {
-        Map<String, Integer> brandlist = new HashMap<>();
+        Map<String, String> brandlist = new HashMap<>();
         Map<String, Double> productVariationsMap = new HashMap<>();
         Map<String, String> categoryMetadataFieldValuesMap = new HashMap<>();
         CategoryFilterDto categoryFilterDto = new CategoryFilterDto();

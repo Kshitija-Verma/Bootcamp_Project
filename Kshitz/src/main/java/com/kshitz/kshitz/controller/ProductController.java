@@ -22,13 +22,13 @@ public class ProductController {
     }
 
     @GetMapping("/seller/view-product/{id}")
-    public Product viewSellerProduct(@PathVariable Integer id, Authentication authentication) {
+    public Product viewSellerProduct(@PathVariable String id, Authentication authentication) {
         String username = authentication.getName();
         return productService.viewSellerProduct(id, username);
     }
 
     @GetMapping("/seller/view-product-variation/{id}")
-    public ProductVariation viewSellerProductVariation(@PathVariable Integer id, Authentication authentication) {
+    public ProductVariation viewSellerProductVariation(@PathVariable String id, Authentication authentication) {
         String username = authentication.getName();
         return productService.viewSellerProductVariation(id, username);
     }
@@ -45,31 +45,31 @@ public class ProductController {
     }
 
     @GetMapping("/seller/view-all-product-variations/{id}")
-    public List<ProductVariation> viewAllProductVariations(@PathVariable Integer id, Authentication authentication) {
+    public List<ProductVariation> viewAllProductVariations(@PathVariable String id, Authentication authentication) {
         String username = authentication.getName();
         return productService.viewAllSellerProductVariations(id, username);
     }
 
     @DeleteMapping("/seller/delete-product/{id}")
-    public String deleteProduct(@PathVariable Integer id, Authentication authentication) {
+    public String deleteProduct(@PathVariable String id, Authentication authentication) {
         String username = authentication.getName();
         return productService.deleteProduct(id, username);
     }
 
     @PutMapping("/seller/update-product/{id}")
-    public String updateProduct(@PathVariable Integer id, @RequestBody UpdateProductDto updateProductDto, Authentication authentication) {
+    public String updateProduct(@PathVariable String id, @RequestBody UpdateProductDto updateProductDto, Authentication authentication) {
         String username = authentication.getName();
         return productService.updateProduct(id, updateProductDto, username);
     }
 
     @PutMapping("/seller/update-product-variation/{id}")
-    public String updateProductVariation(@PathVariable Integer id, @RequestBody UpdateProductVariationDto updateProductVariationDto, Authentication authentication) {
+    public String updateProductVariation(@PathVariable String id, @RequestBody UpdateProductVariationDto updateProductVariationDto, Authentication authentication) {
         String username = authentication.getName();
         return productService.updateProductVariation(id, updateProductVariationDto, username);
     }
 
     @GetMapping("/customer/view-product/{id}")
-    public List<ProductVariation> viewCustomerProduct(@PathVariable Integer id) {
+    public List<ProductVariation> viewCustomerProduct(@PathVariable String id) {
         return productService.viewCustomerProduct(id);
     }
 
@@ -79,12 +79,12 @@ public class ProductController {
     }
 
     @GetMapping("/customer/view-similar-products/{productId}")
-    public ProductFilterDto viewSimilarProducts(@PathVariable Integer productId) {
+    public ProductFilterDto viewSimilarProducts(@PathVariable String productId) {
         return productService.viewSimilarProducts(productId);
     }
 
     @GetMapping("/admin/view-product/{id}")
-    public Product viewProduct(@PathVariable Integer id) {
+    public Product viewProduct(@PathVariable String  id) {
         return productService.viewProduct(id);
     }
 
@@ -94,12 +94,12 @@ public class ProductController {
     }
 
     @PutMapping("/admin/activate-product/{id}")
-    public String activateProduct(@PathVariable Integer id) {
+    public String activateProduct(@PathVariable String  id) {
         return productService.activateProduct(id);
     }
 
     @PutMapping("/admin/deactivate-product/{id}")
-    public String deactivateProduct(@PathVariable Integer id) {
+    public String deactivateProduct(@PathVariable String id) {
         return productService.deactivateProduct(id);
     }
 

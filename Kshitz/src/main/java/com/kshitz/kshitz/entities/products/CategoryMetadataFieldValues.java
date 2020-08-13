@@ -1,12 +1,13 @@
 package com.kshitz.kshitz.entities.products;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 import java.io.Serializable;
 
-@Entity
+@Document
 public class CategoryMetadataFieldValues implements Serializable {
-    @EmbeddedId
+
     private CategoryMetadataIdentity categoryMetadataIdentity;
 
     private String value;

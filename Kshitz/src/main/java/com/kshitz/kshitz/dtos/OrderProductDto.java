@@ -1,14 +1,14 @@
 package com.kshitz.kshitz.dtos;
 
 public class OrderProductDto {
-    private Integer productVariationId;
+    private String  productVariationId;
     private Integer quantity;
 
-    public Integer getProductVariationId() {
+    public String getProductVariationId() {
         return productVariationId;
     }
 
-    public void setProductVariationId(Integer productVariationId) {
+    public void setProductVariationId(String  productVariationId) {
         this.productVariationId = productVariationId;
     }
 

@@ -2,19 +2,19 @@ package com.kshitz.kshitz.entities.orders;
 
 import com.kshitz.kshitz.entities.products.ProductVariation;
 import com.kshitz.kshitz.entities.users.Customer;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 
-@Entity
+@Document
 public class Cart implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToOne
+
+    private String  id;
+
     private Customer customer;
     private Integer quantity;
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
     private ProductVariation productVariation;
 
     public Customer getCustomer() {
@@ -33,11 +33,11 @@ public class Cart implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getId() {
+    public String  getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String  id) {
         this.id = id;
     }
 

@@ -1,15 +1,15 @@
 package com.kshitz.kshitz.dtos;
 
 public class CategoryDisplayDto {
-    private Integer id;
+    private String id;
     private String name;
-    private Integer parentId;
+    private String parentId;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -21,11 +21,11 @@ public class CategoryDisplayDto {
         this.name = name;
     }
 
-    public Integer getParentId() {
+    public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 }

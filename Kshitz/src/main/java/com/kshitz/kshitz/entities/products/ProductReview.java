@@ -1,15 +1,14 @@
 package com.kshitz.kshitz.entities.products;
 
 import com.kshitz.kshitz.entities.users.Customer;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
-@Entity
+@Document
 public class ProductReview {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    private String id;
+
     Customer customer;
 
     private String review;
@@ -40,4 +39,11 @@ public class ProductReview {
         this.rating = rating;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

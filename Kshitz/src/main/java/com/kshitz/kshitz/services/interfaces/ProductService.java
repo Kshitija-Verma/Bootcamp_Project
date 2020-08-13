@@ -4,7 +4,7 @@ import com.kshitz.kshitz.dtos.*;
 import com.kshitz.kshitz.entities.products.Product;
 import com.kshitz.kshitz.entities.products.ProductVariation;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 
 public interface ProductService {
@@ -12,30 +12,30 @@ public interface ProductService {
 
     String addProductVariation(ProductVariationDto productVariationDto);
 
-    Product viewProduct(Integer id);
+    Product viewProduct(String  id);
 
-    String activateProduct(Integer id);
+    String activateProduct(String id);
 
-    String deactivateProduct(Integer id);
+    String deactivateProduct(String id);
 
-    Product viewSellerProduct(Integer id, String username);
+    Product viewSellerProduct(String id, String username);
 
-    ProductVariation viewSellerProductVariation(Integer id, String username);
+    ProductVariation viewSellerProductVariation(String id, String username);
 
     List<Product> viewAllSellerProducts(String username);
 
-    List<ProductVariation> viewAllSellerProductVariations(Integer id, String username);
+    List<ProductVariation> viewAllSellerProductVariations(String  id, String username);
 
-    @Transactional
-    String deleteProduct(Integer id, String username);
 
-    String updateProduct(Integer id, UpdateProductDto updateProductDto, String username);
+    String deleteProduct(String id, String username);
 
-    String updateProductVariation(Integer id, UpdateProductVariationDto updateProductVariationDto, String username);
+    String updateProduct(String id, UpdateProductDto updateProductDto, String username);
 
-    List<ProductVariation> viewCustomerProduct(Integer id);
+    String updateProductVariation(String id, UpdateProductVariationDto updateProductVariationDto, String username);
+
+    List<ProductVariation> viewCustomerProduct(String id);
 
     List<ProductVariation> viewAllProducts();
 
-    ProductFilterDto viewSimilarProducts(Integer id);
+    ProductFilterDto viewSimilarProducts(String id);
 }

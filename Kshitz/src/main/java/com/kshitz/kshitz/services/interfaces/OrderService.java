@@ -5,9 +5,9 @@ import com.kshitz.kshitz.dtos.OrderProductDto;
 import com.kshitz.kshitz.entities.orders.OrderBill;
 
 public interface OrderService {
-    String addCartItem(Integer productVariationId, CartDto cartDto, String username);
+    String addCartItem(String productVariationId, CartDto cartDto, String username);
 
-    OrderBill buyCart(Integer customerAddressId, String username);
+    OrderBill buyCart(String customerAddressId, String username);
 
-    OrderBill buyProduct(Integer customerAddressId, OrderProductDto orderProductDto, String username);
+    OrderBill buyProduct(String customerAddressId, OrderProductDto orderProductDto, String username);
 }

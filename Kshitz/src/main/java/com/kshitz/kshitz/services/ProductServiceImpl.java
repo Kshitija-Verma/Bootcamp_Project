@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +113,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public Product viewProduct(Integer id) {
+    public Product viewProduct(String  id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -125,7 +124,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public String activateProduct(Integer id) {
+    public String activateProduct(String id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -136,7 +135,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public String deactivateProduct(Integer id) {
+    public String deactivateProduct(String id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -147,7 +146,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public Product viewSellerProduct(Integer id, String username) {
+    public Product viewSellerProduct(String  id, String username) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -163,7 +162,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public ProductVariation viewSellerProductVariation(Integer id, String username) {
+    public ProductVariation viewSellerProductVariation(String id, String username) {
         Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(id);
         if (!productVariationOptional.isPresent())
             throw new EntityNotFoundException("product variation is not found");
@@ -187,7 +186,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public List<ProductVariation> viewAllSellerProductVariations(Integer id, String username) {
+    public List<ProductVariation> viewAllSellerProductVariations(String id, String username) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -203,8 +202,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    @Transactional
-    public String deleteProduct(Integer id, String username) {
+    public String deleteProduct(String  id, String username) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -221,7 +219,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
 
 
     @Override
-    public String updateProduct(Integer id, UpdateProductDto updateProductDto, String username) {
+    public String updateProduct(String id, UpdateProductDto updateProductDto, String username) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent())
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -252,7 +250,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public String updateProductVariation(Integer id, UpdateProductVariationDto updateProductVariationDto, String username) {
+    public String updateProductVariation(String id, UpdateProductVariationDto updateProductVariationDto, String username) {
         Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(id);
         if (!productVariationOptional.isPresent())
             throw new EntityNotFoundException("Product variation not found");
@@ -293,7 +291,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
     }
 
     @Override
-    public List<ProductVariation> viewCustomerProduct(Integer id) {
+    public List<ProductVariation> viewCustomerProduct(String id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent()) {
             throw new EntityNotFoundException(PRODUCT_ERROR);
@@ -313,7 +311,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
 
 
     @Override
-    public ProductFilterDto viewSimilarProducts(Integer id) {
+    public ProductFilterDto viewSimilarProducts(String id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent()) {
             throw new EntityNotFoundException("product not found");

@@ -17,19 +17,19 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping("/customer/add-to-cart/{productVariationId}")
-    public String addCartItem(@PathVariable Integer productVariationId, @RequestBody CartDto cartDto, Authentication authentication) {
+    public String addCartItem(@PathVariable String productVariationId, @RequestBody CartDto cartDto, Authentication authentication) {
         String username = authentication.getName();
         return orderService.addCartItem(productVariationId, cartDto, username);
     }
 
     @PostMapping("/customer/buy-cart/{customerAddressId}")
-    public OrderBill buyCart(@PathVariable Integer customerAddressId, Authentication authentication) {
+    public OrderBill buyCart(@PathVariable String customerAddressId, Authentication authentication) {
         String username = authentication.getName();
         return orderService.buyCart(customerAddressId, username);
     }
 
     @PostMapping("/customer/buy-product/{customerAddressId}")
-    public OrderBill buyProduct(@PathVariable Integer customerAddressId, @RequestBody OrderProductDto orderProductDto, Authentication authentication) {
+    public OrderBill buyProduct(@PathVariable String customerAddressId, @RequestBody OrderProductDto orderProductDto, Authentication authentication) {
         String username = authentication.getName();
         return orderService.buyProduct(customerAddressId, orderProductDto, username);
     }

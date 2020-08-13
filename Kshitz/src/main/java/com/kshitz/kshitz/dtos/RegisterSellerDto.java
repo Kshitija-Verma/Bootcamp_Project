@@ -4,7 +4,7 @@ import com.kshitz.kshitz.validations.Email;
 import com.kshitz.kshitz.validations.Phone;
 import com.kshitz.kshitz.validations.ValidPassword;
 
-import javax.persistence.Column;
+
 import javax.validation.constraints.NotNull;
 
 public class RegisterSellerDto {
@@ -15,7 +15,7 @@ public class RegisterSellerDto {
     @NotNull
     private String lastName;
     @NotNull
-    @Column(unique = true)
+
     private String username;
     @ValidPassword
     @NotNull
@@ -24,7 +24,6 @@ public class RegisterSellerDto {
     private String confirmPassword;
     @Email
     @NotNull
-    @Column(unique = true)
     private String email;
     @Phone
     @NotNull

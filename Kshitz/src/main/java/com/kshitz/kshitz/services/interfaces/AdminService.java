@@ -8,11 +8,11 @@ public interface AdminService {
 
     Iterable<Seller> displaySeller();
 
-    Customer updateCustomer(Integer id);
+    Customer updateCustomer(String id);
 
-    Seller updateSeller(Integer id);
+    Seller updateSeller(String id);
 
-    String deactivateCustomer(Integer id);
+    String deactivateCustomer(String id);
 
-    String deactivateSeller(Integer id);
+    String deactivateSeller(String id);
 }

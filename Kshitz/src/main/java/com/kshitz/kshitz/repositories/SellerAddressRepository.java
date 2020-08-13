@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
-public interface SellerAddressRepository extends CrudRepository<SellerAddress,Integer> {
+public interface SellerAddressRepository extends CrudRepository<SellerAddress,String> {
+
     SellerAddress findBySeller(Seller seller);
 }

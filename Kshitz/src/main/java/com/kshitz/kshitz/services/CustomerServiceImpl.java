@@ -152,7 +152,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String deleteCustomerAddress(Integer id, String username) {
+    public String deleteCustomerAddress(String id, String username) {
         Customer customer = customerRepository.findByUsername(username);
         Optional<CustomerAddress> customerAddress = customerAddressRepository.findById(id);
         if (!customerAddress.isPresent()) {
@@ -169,7 +169,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String updateCustomerAddress(Integer id, AddressDto addressDto, String username) {
+    public String updateCustomerAddress(String id, AddressDto addressDto, String username) {
         Customer customer = customerRepository.findByUsername(username);
         Optional<CustomerAddress> customerAddress = customerAddressRepository.findById(id);
         if (!customerAddress.isPresent()) {

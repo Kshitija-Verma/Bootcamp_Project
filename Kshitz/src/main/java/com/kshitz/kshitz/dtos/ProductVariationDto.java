@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ProductVariationDto {
     @NotNull
-    private Integer productId;
+    private String productId;
     @NotNull
     private Integer quantity;
     @NotNull
@@ -15,11 +15,11 @@ public class ProductVariationDto {
     @NotNull
     private Map<String,String> metadata;
 
-    public Integer getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(String  productId) {
         this.productId = productId;
     }
 

@@ -19,7 +19,7 @@ public class CategoryController {
 
     @PostMapping("/admin/add-metadata-fields")
     public String addMetadata(@Valid @RequestBody CategoryMetadataDto categoryMetadataDto) {
-        Integer id = categoryService.addCategoryMetadata(categoryMetadataDto);
+        String id = categoryService.addCategoryMetadata(categoryMetadataDto);
         return "Metadata field added with id =" + id;
     }
 
@@ -33,12 +33,12 @@ public class CategoryController {
     @PostMapping("/admin/add-category")
     @ResponseBody
     public String addCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        Integer id = categoryService.addNewCategory(categoryDto);
+        String id = categoryService.addNewCategory(categoryDto);
         return "Category added with id =" + id;
     }
 
     @GetMapping("/admin/view-category/{id}")
-    public List<CategoryDisplayDto> viewSingleCategory(@PathVariable Integer id) {
+    public List<CategoryDisplayDto> viewSingleCategory(@PathVariable String  id) {
         return categoryService.viewCategory(id);
     }
 
@@ -48,7 +48,7 @@ public class CategoryController {
     }
 
     @PutMapping("/admin/update-category/{id}")
-    public String updateCategory(@PathVariable Integer id, @RequestBody CategoryDto categoryDto) {
+    public String updateCategory(@PathVariable String  id, @RequestBody CategoryDto categoryDto) {
         return categoryService.updateCategory(id, categoryDto);
     }
 
@@ -68,7 +68,7 @@ public class CategoryController {
     }
 
     @GetMapping("/customer/view-filtered-categories/{categoryId}")
-    public CategoryFilterDto viewFilterCategory(@PathVariable Integer categoryId) {
+    public CategoryFilterDto viewFilterCategory(@PathVariable String  categoryId) {
         return categoryService.viewFilterCategory(categoryId);
     }
 

@@ -1,27 +1,26 @@
 package com.kshitz.kshitz.entities.orders;
 
 import com.kshitz.kshitz.entities.products.ProductVariation;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Document
 public class OrderProduct implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @ManyToOne
+
+    private String id;
+
     private OrderBill orderBill;
     private Integer quantity;
     private Double price;
-    @ManyToOne
+
     private ProductVariation productVariation;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

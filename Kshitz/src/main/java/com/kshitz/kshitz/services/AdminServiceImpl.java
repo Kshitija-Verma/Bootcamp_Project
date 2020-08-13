@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Customer updateCustomer(Integer id) {
+    public Customer updateCustomer(String id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
         if (!customer.isPresent())
@@ -55,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Seller updateSeller(Integer id) {
+    public Seller updateSeller(String id) {
 
         Optional<Seller> seller = sellerRepository.findById(id);
         if (!seller.isPresent())
@@ -71,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String deactivateCustomer(Integer id) {
+    public String deactivateCustomer(String id) {
         Optional<Customer> customer = customerRepository.findById(id);
         if (!customer.isPresent()) {
             logger.error(USER_ERROR);
@@ -96,7 +96,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String deactivateSeller(Integer id) {
+    public String deactivateSeller(String id) {
         Optional<Seller> seller = sellerRepository.findById(id);
         if (!seller.isPresent()) {
             logger.error(SELLER_ERROR);

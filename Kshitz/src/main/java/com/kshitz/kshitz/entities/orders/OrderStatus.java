@@ -1,6 +1,7 @@
 package com.kshitz.kshitz.entities.orders;
 
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 
 enum fromStatus{
@@ -54,15 +55,13 @@ public fromStatus toFromStatus(){
 }
 
 
-@Entity
+@Document
 public class OrderStatus implements Serializable {
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderProductId",referencedColumnName = "id")
+
     private OrderProduct orderProduct;
-    @Enumerated(EnumType.STRING)
+
     private fromStatus fromStatus;
-    @Enumerated(EnumType.STRING)
+
     private  toStatus toStatus;
     private String transitionNotesComments;
 

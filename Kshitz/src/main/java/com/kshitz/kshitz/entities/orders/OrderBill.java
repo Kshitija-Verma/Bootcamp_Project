@@ -2,26 +2,25 @@ package com.kshitz.kshitz.entities.orders;
 
 import com.kshitz.kshitz.entities.addresses.CustomerAddress;
 import com.kshitz.kshitz.entities.users.Customer;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Document
 public class OrderBill {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL)
+
     private Customer customer;
 
     private Double amountPaid;
     private String dateCreated;
     private String paymentMethod;
 
-    @OneToOne(cascade = CascadeType.ALL)
+
     private CustomerAddress customerAddress;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderBill")
+
     private List<OrderProduct> orderProducts;
 
     public Integer getId() {

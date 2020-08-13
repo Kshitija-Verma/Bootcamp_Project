@@ -4,25 +4,25 @@ import javax.validation.constraints.NotNull;
 
 public class CategoryfieldDto {
     @NotNull
-    private Integer metadataId;
+    private String metadataId;
     @NotNull
-    private Integer categoryId;
+    private String  categoryId;
     @NotNull
     private String value;
 
-    public Integer getMetadataId() {
+    public String  getMetadataId() {
         return metadataId;
     }
 
-    public void setMetadataId(Integer metadataId) {
+    public void setMetadataId(String  metadataId) {
         this.metadataId = metadataId;
     }
 
-    public Integer getCategoryId() {
+    public String  getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(String  categoryId) {
         this.categoryId = categoryId;
     }
 

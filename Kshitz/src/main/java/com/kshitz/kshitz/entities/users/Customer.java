@@ -1,18 +1,18 @@
 package com.kshitz.kshitz.entities.users;
 
 import com.kshitz.kshitz.entities.addresses.CustomerAddress;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@PrimaryKeyJoinColumn(name="id")
+@Document(collection = "user")
 public class Customer extends User implements Serializable  {
     private String profileImage;
     private String contact;
 
-@OneToMany(mappedBy = "customer")
+
 private List<CustomerAddress> customerAddresses;
 
     public String getProfileImage() {

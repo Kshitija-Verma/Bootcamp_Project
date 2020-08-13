@@ -1,13 +1,14 @@
 package com.kshitz.kshitz.entities.products;
 
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
-@Embeddable
+@Document
 public class CategoryMetadataIdentity implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
     private CategoryMetadataField categoryMetadataField;
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
     private Category category;
 
     public CategoryMetadataField getCategoryMetadataField() {

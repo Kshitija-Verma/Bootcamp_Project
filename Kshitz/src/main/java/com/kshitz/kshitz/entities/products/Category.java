@@ -1,27 +1,23 @@
 package com.kshitz.kshitz.entities.products;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kshitz.kshitz.audits.Auditable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Document
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(unique = true)
-    @NotNull
+
+    private String  id;
+
     private String name;
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_id")
+
     @JsonIgnore
     private Category parent;
-    @OneToMany(mappedBy = "parent")
+
     @JsonIgnore
     Set<Category> categories = new HashSet<>();
 
@@ -42,11 +38,11 @@ public class Category {
         this.parent = category;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String  id) {
         this.id = id;
     }
 

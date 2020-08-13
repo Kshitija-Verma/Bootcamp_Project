@@ -1,53 +1,26 @@
 package com.kshitz.kshitz.entities.products;
 
-import com.kshitz.kshitz.audits.Auditable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
-import java.util.Date;
+
 import java.util.Map;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-public class ProductVariation extends Auditable<String> implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@Document
+public class ProductVariation implements Serializable {
+
+    private String id;
     private Integer quantityAvailable;
     private Double price;
     private Boolean isActive;
-    @Convert(converter = HashMapConverter.class)
 
-    @Column(columnDefinition = "json")
     private Map<String, String> metadata;
 
     private String primaryImageName;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+
     private Product product;
 
-    @PrePersist
-    public void onPrePersist(){
-        create();
-    }
-    @PreUpdate
-    public void onPreUpdate() {
-        audit();
-    }
-    @PreRemove
-    public void onPreDelete(){
-        audit();
-    }
-    private void audit() {
-        setLastModifiedBy(product.seller.getUsername());
-        setLastModifiedDate(new Date());
-    }
-    private void create(){
-        setCreatedBy(product.seller.getUsername());
-        setLastModifiedBy(product.seller.getUsername());
-        setLastModifiedDate(new Date());
-        setCreatedDate(new Date());
-    }
 
     public Product getProduct() {
         return product;
@@ -65,11 +38,11 @@ public class ProductVariation extends Auditable<String> implements Serializable 
         this.metadata = metadata;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

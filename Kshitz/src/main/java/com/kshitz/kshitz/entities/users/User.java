@@ -1,20 +1,15 @@
 package com.kshitz.kshitz.entities.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kshitz.kshitz.audits.Auditable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.util.Date;
+
 import java.util.List;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@EntityListeners(AuditingEntityListener.class)
-public class User extends Auditable<String> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@Document
+public class User  {
+
+    private String id;
     private String email;
     private String firstName;
     private String middleName;
@@ -28,40 +23,20 @@ private String password;
     private Boolean isActive;
     @JsonIgnore
     private Integer attempts=0;
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "userRole",
-            joinColumns = @JoinColumn(name = "userid",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "roleid"))
-            List<Role> role;
 
+    private List<Role> role;
 
 
     public User(){
 
    }
-   @PrePersist
-   public void onPrePersist(){
-        create();
-   }
-    @PreUpdate
-    public void onPreUpdate() {
-        audit();
+
+    public String getId() {
+        return id;
     }
-    @PreRemove
-    public void onPreDelete(){
-        audit();
-    }
-    private void audit() {
-        setLastModifiedBy(username);
-        setLastModifiedDate(new Date());
-    }
-    private void create(){
-        setCreatedBy(username);
-        setLastModifiedBy(username);
-        setLastModifiedDate(new Date());
-        setCreatedDate(new Date());
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Integer getAttempts() {
@@ -80,13 +55,6 @@ private String password;
         this.role = role;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

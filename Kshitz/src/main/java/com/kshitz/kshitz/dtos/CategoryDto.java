@@ -2,7 +2,7 @@ package com.kshitz.kshitz.dtos;
 
 public class CategoryDto {
     private String name;
-    private Integer id;
+    private String id;
 
     public String getName() {
         return name;
@@ -12,11 +12,11 @@ public class CategoryDto {
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
