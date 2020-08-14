@@ -104,15 +104,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> viewAllCategory() {
-        List<Category> categories = categoryRepository.findLeafNode();
-        List<Category> categories1 = categoryRepository.findInnerNode();
-        List<Category> categories2 = categoryRepository.findRootNode();
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.addAll(categories);
-        categoryList.addAll(categories1);
-        categoryList.addAll(categories2);
-        return categoryList;
+    public Iterable<Category> viewAllCategory() {
+//        List<Category> categories = categoryRepository.findLeafNode();
+//        List<Category> categories1 = categoryRepository.findInnerNode();
+//        List<Category> categories2 = categoryRepository.findRootNode();
+
+        return categoryRepository.findAll();
+
+//        categoryList.addAll(categories);
+//        categoryList.addAll(categories1);
+//        categoryList.addAll(categories2);
+
+
+    }
+    public List<CategoryMetadataFieldValues> viewMetadataByCategory(String categoryId) {
+        return this.categoryMetadataFieldValueRepository.findByCategoryId(categoryId);
     }
 
     @Override
@@ -297,4 +303,5 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryFilterDto;
 
     }
+
 }

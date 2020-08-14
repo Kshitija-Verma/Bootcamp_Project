@@ -84,7 +84,7 @@ public class ProductController {
     }
 
     @GetMapping("/admin/view-product/{id}")
-    public Product viewProduct(@PathVariable String  id) {
+    public Product viewProduct(@PathVariable String id) {
         return productService.viewProduct(id);
     }
 
@@ -94,7 +94,7 @@ public class ProductController {
     }
 
     @PutMapping("/admin/activate-product/{id}")
-    public String activateProduct(@PathVariable String  id) {
+    public String activateProduct(@PathVariable String id) {
         return productService.activateProduct(id);
     }
 
@@ -103,4 +103,21 @@ public class ProductController {
         return productService.deactivateProduct(id);
     }
 
+    //    @GetMapping({"/view-all-products/{count}"})
+//    public List<ProductVariation> viewAllProducts(@PathVariable Integer count) {
+//        return this.productService.viewGroupProducts(count);
+//    }
+    @GetMapping({"/admin/view-product"})
+    public Iterable<Product> viewProduct() {
+        return this.productService.viewProducts();
+    }
+
+    @GetMapping({"/view-all-products/{count}"})
+    public List<ProductVariation> viewAllProducts(@PathVariable Integer count) {
+        return this.productService.viewGroupProducts(count);
+    }
+    @GetMapping({"/view-all-product-variation/{id}"})
+    public List<ProductVariation> viewAllCustomerProducts(@PathVariable String id) {
+        return this.productService.viewAllProductVariations(id);
+    }
 }

@@ -23,6 +23,11 @@ public class CategoryController {
         return "Metadata field added with id =" + id;
     }
 
+    @GetMapping({"/seller/view-metadata-by-category/{categoryId}"})
+    public List<CategoryMetadataFieldValues> viewMetadataByCategory(@PathVariable String categoryId) {
+        return this.categoryService.viewMetadataByCategory(categoryId);
+    }
+
     @GetMapping("/admin/view-metadata-fields")
     @ResponseBody
     public Iterable<CategoryMetadataField> viewMetadata(Authentication authentication) {
@@ -43,8 +48,13 @@ public class CategoryController {
     }
 
     @GetMapping("/admin/view-all-category")
-    public List<Category> viewAllCategory() {
+    public Iterable<Category> viewAllCategory() {
         return categoryService.viewAllCategory();
+    }
+
+    @GetMapping({"/view-all-category"})
+    public Iterable<Category> allCategory() {
+        return this.categoryService.viewAllCategory();
     }
 
     @PutMapping("/admin/update-category/{id}")

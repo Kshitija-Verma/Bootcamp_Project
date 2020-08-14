@@ -16,7 +16,7 @@ public interface CategoryService {
 
     List<CategoryDisplayDto> viewCategory(String id);
 
-    List<Category> viewAllCategory();
+    Iterable<Category> viewAllCategory();
 
     String updateCategory(String id, CategoryDto categoryDto);
 

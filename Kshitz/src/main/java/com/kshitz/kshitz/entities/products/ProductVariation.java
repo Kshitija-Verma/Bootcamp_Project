@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import java.util.Map;
 
-@Document
+@Document(collection = "product")
 public class ProductVariation implements Serializable {
 
     private String id;

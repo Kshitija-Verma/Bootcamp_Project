@@ -26,7 +26,7 @@ public class Product  {
     private Boolean isDeleted=false;
 
 
-    Seller seller;
+     Seller seller;
 
     List<ProductReview> productReviews;
 

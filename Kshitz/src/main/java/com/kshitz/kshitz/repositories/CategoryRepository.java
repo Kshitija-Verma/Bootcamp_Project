@@ -11,9 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category,String> {
-    @Query(value = "select * from category where id!=parent_id")
+
+    @Query("{ id: { $not: parent_id} } ")
     List<Category> findAllCategory();
-@Query(value = "select * from category where parent_id IS NULL")
+@Query("{parent_id:null}")
     List<Category> findRootNode();
 @Query(value = "select * from category c1 LEFT JOIN category c2 ON c1.id = c2.parent_id where c2.parent_id IS NULL")
     List<Category> findLeafNode();

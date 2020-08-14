@@ -42,14 +42,17 @@ public class AdminServiceImpl implements AdminService {
     public Customer updateCustomer(String id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
+
         if (!customer.isPresent())
             throw new EntityNotFoundException("Customer with this id is not present");
         Customer customer1 = customer.get();
+        System.out.println(customer1.getProfileImage());
         if (customer1.isActive())
             return customer1;
         else
             customer1.setActive(true);
-        logger.debug("*********************Customer is not activated *********************");
+        customerRepository.save(customer1);
+        logger.debug("*********************Customer is activated *********************");
         return customer1;
 
     }
@@ -65,6 +68,7 @@ public class AdminServiceImpl implements AdminService {
             return seller1;
         else
             seller1.setActive(true);
+        sellerRepository.save(seller1);
         logger.debug("**********************Seller is now activated ***********************");
         return seller1;
 

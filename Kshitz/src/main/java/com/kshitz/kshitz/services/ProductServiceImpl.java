@@ -14,10 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.kshitz.kshitz.utilities.StringConstants.*;
@@ -171,33 +168,33 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
             throw new EntityNotFoundException(PRODUCT_ERROR);
 
         }
-        if (!productVariation.getProduct().isActive() || productVariation.getProduct().isDeleted()) {
-            throw new NotActiveException(PRODUCT_NOT_ACTIVE);
-        }
+//        if (!productVariation.getProduct().isActive() || productVariation.getProduct().isDeleted()) {
+//            throw new NotActiveException(PRODUCT_NOT_ACTIVE);
+//        }
         return productVariation;
     }
 
     @Override
     public List<Product> viewAllSellerProducts(String username) {
         Seller seller = sellerRepository.findByUsername(username);
-        List<Product> products = productRepository.findBySeller(PageRequest.of(0, 10, Sort.Direction.ASC, "id"), seller);
-        return products.stream().filter(Product::isActive).collect(Collectors.toList());
+        List<Product> products = productRepository.findBySellerId(seller.getId());
+        return products.stream().collect(Collectors.toList());
 
     }
 
     @Override
     public List<ProductVariation> viewAllSellerProductVariations(String id, String username) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        if (!productOptional.isPresent())
-            throw new EntityNotFoundException(PRODUCT_ERROR);
-        Product product = productOptional.get();
-        if (product.getSeller() != sellerRepository.findByUsername(username)) {
-            throw new EntityNotFoundException(PRODUCT_ERROR);
-        }
-        if (!product.isActive() || product.isDeleted()) {
-            throw new NotActiveException(PRODUCT_NOT_ACTIVE);
-        }
-        return productVariationRepository.findByProduct(PageRequest.of(0, 10, Sort.Direction.ASC, "id"), product);
+       Optional<Product> productOptional = productRepository.findById(id);
+//        if (!productOptional.isPresent())
+//            throw new EntityNotFoundException(PRODUCT_ERROR);
+       Product product = productOptional.get();
+//        if (product.getSeller() != sellerRepository.findByUsername(username)) {
+//            throw new EntityNotFoundException(PRODUCT_ERROR);
+//        }
+//        if (!product.isActive() || product.isDeleted()) {
+//            throw new NotActiveException(PRODUCT_NOT_ACTIVE);
+//        }
+        return productVariationRepository.findByProductId(product.getId());
 
     }
 
@@ -305,7 +302,7 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
 
     @Override
     public List<ProductVariation> viewAllProducts() {
-        List<ProductVariation> productVariations = productVariationRepository.findAllProductVariation(PageRequest.of(0, 10, Sort.Direction.ASC, "id"));
+        List<ProductVariation> productVariations =  productVariationRepository.findAll(PageRequest.of(0, 10, Sort.Direction.ASC, "id"));
         return productVariations.stream().filter(e -> e.getProduct().isActive() || !e.getProduct().isDeleted()).collect(Collectors.toList());
     }
 
@@ -334,5 +331,24 @@ List<ProductVariation> productVariationList = productVariationRepository.findAll
 
         productFilterDto.setProductList(products.stream().filter(Product::isActive).collect(Collectors.toList()));
         return productFilterDto;
+    }
+
+
+    public Iterable<Product> viewProducts() {
+        return this.productRepository.findAll();
+    }
+
+    public List<ProductVariation> viewGroupProducts(Integer count) {
+        return productVariationRepository.findAllActiveProducts(PageRequest.of(count, 10, Sort.Direction.ASC, "id"));
+
+    }
+
+    public List<ProductVariation> viewAllProductVariations(String id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        Product product = new Product();
+        if(productOptional.isPresent()) {
+            product = productOptional.get();
+        }
+        return productVariationRepository.findByProduct(PageRequest.of(0, 10, Sort.Direction.ASC, "id"),product);
     }
 }

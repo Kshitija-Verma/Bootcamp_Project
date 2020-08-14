@@ -14,23 +14,22 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, String> {
-    @Query(value = "select * from product where seller_id=:id AND category_id=:id1 AND brand=:brand AND name=:name")
-    Product findUniqueName(@Param("id") String id, @Param("brand") String brand, @Param("id1") String id1, @Param("name") String name);
 
-    List<Product> findBySeller(Pageable pageable,Seller seller);
+    @Query("{'seller_id':?0,'category_id':?1,'brand':?2,'name':?3}")
+    Product findUniqueName( String id, String brand,String id1, String name);
 
-
-    @Query(value = "delete from product where id=:id")
-    void deleteByProductId(@Param("id") String id);
 
     Product findByCategory(Category category1);
 
-    @Query(value = "select * from product where id!=:id AND category_id=:id1")
-    List<Product> findOtherProducts(@Param("id")String id,@Param("id1")String id1);
-
-    @Query(value = "select * from product where category_id=:id")
-   List<Product> findByCategoryId(@Param("id") String id);
+    @Query("{'id':{$not:?0},'category_id':?1}")
+    List<Product> findOtherProducts(String id,String id1);
 
 
+    @Query("{'category_id':?0}")
+   List<Product> findByCategoryId(String id);
+
+
+    @Query("{'seller.id':?0}")
+    List<Product> findBySellerId(String id);
 
 }
