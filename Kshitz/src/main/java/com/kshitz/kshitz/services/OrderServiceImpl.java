@@ -6,6 +6,7 @@ import com.kshitz.kshitz.entities.addresses.CustomerAddress;
 import com.kshitz.kshitz.entities.orders.Cart;
 import com.kshitz.kshitz.entities.orders.OrderBill;
 import com.kshitz.kshitz.entities.orders.OrderProduct;
+import com.kshitz.kshitz.entities.orders.ViewOrderDetails;
 import com.kshitz.kshitz.entities.products.ProductVariation;
 import com.kshitz.kshitz.entities.users.Customer;
 import com.kshitz.kshitz.exceptions.EntityNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,94 +38,151 @@ public class OrderServiceImpl implements OrderService {
     CustomerAddressRepository customerAddressRepository;
     @Autowired
     OrderProductRepository orderProductRepository;
+    @Autowired
+    OrderBillRepository orderBillRepository;
+    @Autowired
+    ViewOrderDetailsRepository viewOrderDetailsRepository;
 
     @Override
-    public String addCartItem(String productVariationId, CartDto cartDto, String username) {
-        Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(productVariationId);
+    public String addCartItem(String  productVariationId, CartDto cartDto, String username) {
+        Optional<ProductVariation> productVariationOptional = this.productVariationRepository.findById(productVariationId);
         if (!productVariationOptional.isPresent()) {
             throw new EntityNotFoundException("No product variation found with this id");
+        } else {
+            ProductVariation productVariation = (ProductVariation)productVariationOptional.get();
+            if (productVariation.getQuantityAvailable() < cartDto.getQuantity()) {
+                return "Not enough stock ";
+            } else if (!productVariation.getProduct().isActive()) {
+                throw new NotActiveException("Product is not active");
+            } else {
+                Cart cart = new Cart();
+                cart.setProductVariation(productVariation);
+                cart.setQuantity(cartDto.getQuantity());
+                cart.setCustomer(this.customerRepository.findByUsername(username));
+                int quantityLeft = productVariation.getQuantityAvailable() - cartDto.getQuantity();
+                productVariation.setQuantityAvailable(quantityLeft);
+                this.productVariationRepository.save(productVariation);
+                this.cartRepository.save(cart);
+                return "Item added to cart successfully";
+            }
         }
-        ProductVariation productVariation = productVariationOptional.get();
-        if (productVariation.getQuantityAvailable() < cartDto.getQuantity()) {
-            return "Not enough stock ";
-        }
-        if (!productVariation.getProduct().isActive()) {
-            throw new NotActiveException("Product is not active");
-        }
-        Cart cart = new Cart();
-        cart.setProductVariation(productVariation);
-        cart.setQuantity(cartDto.getQuantity());
-        cart.setCustomer(customerRepository.findByUsername(username));
-        int quantityLeft = productVariation.getQuantityAvailable() - cartDto.getQuantity();
-        productVariation.setQuantityAvailable(quantityLeft);
-        productVariationRepository.save(productVariation);
-        cartRepository.save(cart);
-        return "Item added to cart successfully";
     }
 
     @Override
     public OrderBill buyCart(String customerAddressId, String username) {
-        Optional<CustomerAddress> customerAddressOptional = customerAddressRepository.findById(customerAddressId);
+        Optional<CustomerAddress> customerAddressOptional = this.customerAddressRepository.findById(customerAddressId);
         if (!customerAddressOptional.isPresent()) {
-            throw new EntityNotFoundException(ADDRESS_ERROR);
-        }
-        CustomerAddress customerAddress = customerAddressOptional.get();
+            throw new EntityNotFoundException("Address not found");
+        } else {
+            CustomerAddress customerAddress = (CustomerAddress)customerAddressOptional.get();
+            Customer customer = this.customerRepository.findByUsername(username);
+            List<Cart> carts = this.cartRepository.findByCustomer(customer.getId());
+            Double price = 0.0D;
 
-        Customer customer = customerRepository.findByUsername(username);
-        List<Cart> carts = cartRepository.findByCustomer(customer.getId());
-        Double price = 0.0;
-        for (Cart cart1 : carts) {
-            price += cart1.getProductVariation().getPrice()*cart1.getQuantity();
+            Cart cart1;
+            for(Iterator var8 = carts.iterator(); var8.hasNext(); price = price + cart1.getProductVariation().getPrice() * (double)cart1.getQuantity()) {
+                cart1 = (Cart)var8.next();
+            }
+
+            OrderBill orderBill = new OrderBill();
+            orderBill.setAmountPaid(price);
+            orderBill.setCustomer(customer);
+            orderBill.setCity(customerAddress.getCity());
+            orderBill.setCountry(customerAddress.getCountry());
+            orderBill.setState(customerAddress.getState());
+            orderBill.setZipCode(customerAddress.getZipCode());
+            orderBill.setLabel(customerAddress.getLabel());
+            orderBill.setDateCreated((new Date()).toString());
+            orderBill.setPaymentMethod("COD");
+            this.orderRepository.save(orderBill);
+            Iterator var12 = carts.iterator();
+
+            while(var12.hasNext()) {
+                Cart cart = (Cart)var12.next();
+                this.cartRepository.deleteById(cart.getId());
+            }
+
+            return orderBill;
+        }
+    }
+
+    @Override
+    public ViewOrderDetails viewOrderDetails(String username) {
+        Customer customer = this.customerRepository.findByUsername(username);
+        List<Cart> carts = this.cartRepository.findByCustomer(customer.getId());
+        Double price = 0.0D;
+
+        Cart cart1;
+        for(Iterator var5 = carts.iterator(); var5.hasNext(); price = price + cart1.getProductVariation().getPrice() * (double)cart1.getQuantity()) {
+            cart1 = (Cart)var5.next();
         }
 
-        OrderBill orderBill = new OrderBill();
-        orderBill.setAmountPaid(price);
-        orderBill.setCustomer(customer);
-        orderBill.setCustomerAddress(customerAddress);
-        orderBill.setDateCreated(new Date().toString());
-        orderBill.setPaymentMethod("COD");
-        orderRepository.save(orderBill);
-        for(Cart cart:carts){
-            cartRepository.deleteById(cart.getId());
-        }
-
-        return orderBill;
+        ViewOrderDetails viewOrderDetails = new ViewOrderDetails();
+        viewOrderDetails.setAmountPaid(price);
+        viewOrderDetails.setPaymentMethod("COD");
+        viewOrderDetails.setDateCreated((new Date()).toString());
+        return viewOrderDetailsRepository.save(viewOrderDetails);
     }
 
     @Override
     public OrderBill buyProduct(String customerAddressId, OrderProductDto orderProductDto, String username) {
         Optional<CustomerAddress> customerAddressOptional = customerAddressRepository.findById(customerAddressId);
         if (!customerAddressOptional.isPresent()) {
-            throw new EntityNotFoundException(ADDRESS_ERROR);
+            throw new EntityNotFoundException("Address not found");
+        } else {
+            CustomerAddress customerAddress = (CustomerAddress)customerAddressOptional.get();
+            Customer customer = customerRepository.findByUsername(username);
+            Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(orderProductDto.getProductVariationId());
+            if (!productVariationOptional.isPresent()) {
+                throw new EntityNotFoundException("No product variation found with this id");
+            } else {
+                ProductVariation productVariation = (ProductVariation)productVariationOptional.get();
+                if (!productVariation.getProduct().isActive()) {
+                    throw new NotActiveException("Product is not active");
+                } else {
+                    OrderProduct orderProduct = new OrderProduct();
+                    orderProduct.setProductVariation(productVariation);
+                    if (productVariation.getQuantityAvailable() < orderProductDto.getQuantity()) {
+                        throw new ValidationException("Not enough stock");
+                    } else {
+                        orderProduct.setQuantity(orderProductDto.getQuantity());
+                        orderProduct.setPrice(productVariation.getPrice() * (double)orderProductDto.getQuantity());
+                        OrderBill orderBill = new OrderBill();
+                        orderBill.setPaymentMethod("COD");
+                        orderBill.setDateCreated((new Date()).toString());
+                        orderBill.setCity(customerAddress.getCity());
+                        orderBill.setCountry(customerAddress.getCountry());
+                        orderBill.setState(customerAddress.getState());
+                        orderBill.setZipCode(customerAddress.getZipCode());
+                        orderBill.setLabel(customerAddress.getLabel());
+                        orderBill.setCustomer(customer);
+                        orderBill.setAmountPaid(productVariation.getPrice() * (double)orderProductDto.getQuantity());
+                        this.orderRepository.save(orderBill);
+                        orderProduct.setOrderBill(orderBill);
+                        this.orderProductRepository.save(orderProduct);
+                        return orderBill;
+                    }
+                }
+            }
         }
-        CustomerAddress customerAddress = customerAddressOptional.get();
-        Customer customer = customerRepository.findByUsername(username);
+    }
 
-        Optional<ProductVariation> productVariationOptional = productVariationRepository.findById(orderProductDto.getProductVariationId());
-        if (!productVariationOptional.isPresent()) {
-            throw new EntityNotFoundException("No product variation found with this id");
-        }
-        ProductVariation productVariation = productVariationOptional.get();
-        if (!productVariation.getProduct().isActive()) {
-            throw new NotActiveException("Product is not active");
-        }
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setProductVariation(productVariation);
-        if (productVariation.getQuantityAvailable() < orderProductDto.getQuantity()) {
-            throw new ValidationException("Not enough stock");
-        }
-        orderProduct.setQuantity(orderProductDto.getQuantity());
-        orderProduct.setPrice(productVariation.getPrice() * orderProductDto.getQuantity());
-        OrderBill orderBill = new OrderBill();
-        orderBill.setPaymentMethod("COD");
-        orderBill.setDateCreated(new Date().toString());
-        orderBill.setCustomerAddress(customerAddress);
-        orderBill.setCustomer(customer);
-        orderBill.setAmountPaid(productVariation.getPrice() * orderProductDto.getQuantity());
-        orderRepository.save(orderBill);
-        orderProduct.setOrderBill(orderBill);
-        orderProductRepository.save(orderProduct);
-        return orderBill;
+    @Override
+    public List<Cart> viewCart(String username) {
+        Customer customer = this.customerRepository.findByUsername(username);
+        return this.cartRepository.findByCustomer(customer.getId());
+    }
 
+    @Override
+    public List<Cart> removeFromCart(String id, String username) {
+        Customer customer = this.customerRepository.findByUsername(username);
+        this.cartRepository.deleteById(id);
+        return this.cartRepository.findByCustomer(customer.getId());
+    }
+
+    @Override
+    public List<OrderBill> viewOrders(String username) {
+        Customer customer = this.customerRepository.findByUsername(username);
+        return this.orderBillRepository.findByCustomerId(customer.getId());
     }
 }

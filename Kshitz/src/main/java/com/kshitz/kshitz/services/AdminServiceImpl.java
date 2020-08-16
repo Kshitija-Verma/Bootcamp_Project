@@ -29,13 +29,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Iterable<Customer> displayCustomer() {
         logger.info("******************List of all customers **********************");
-        return customerRepository.findAll();
+        return customerRepository.findAllByCustomer();
 
     }
 
     @Override
     public Iterable<Seller> displaySeller() {
-        return sellerRepository.findAll();
+        return sellerRepository.findAllBySeller();
     }
 
     @Override

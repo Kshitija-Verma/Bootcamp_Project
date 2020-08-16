@@ -1,6 +1,7 @@
 package com.kshitz.kshitz.entities.users;
 
 import com.kshitz.kshitz.entities.addresses.CustomerAddress;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -12,7 +13,7 @@ public class Customer extends User implements Serializable  {
     private String profileImage;
     private String contact;
 
-
+@DBRef
 private List<CustomerAddress> customerAddresses;
 
     public String getProfileImage() {

@@ -17,5 +17,6 @@ public interface CustomerRepository extends CrudRepository<Customer,String> {
     @Query("{'email':?0}")
     Customer findByEmail(String email);
 
-
+    @Query("{'role.roles':'ROLE_CUSTOMER'}")
+    Iterable<Customer> findAllByCustomer();
 }

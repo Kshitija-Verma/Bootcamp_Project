@@ -16,5 +16,6 @@ public interface SellerRepository extends CrudRepository<Seller,String> {
     @Query("{'email':?0}")
     Seller findByEmail(String email);
 
-
+    @Query("{'role.roles':'ROLE_SELLER'}")
+    Iterable<Seller> findAllBySeller();
 }

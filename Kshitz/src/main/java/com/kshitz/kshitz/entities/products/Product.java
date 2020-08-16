@@ -4,6 +4,7 @@ package com.kshitz.kshitz.entities.products;
 import com.kshitz.kshitz.entities.users.Seller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -27,7 +28,7 @@ public class Product  {
 
 
      Seller seller;
-
+     @DBRef
     List<ProductReview> productReviews;
 
      Category category;

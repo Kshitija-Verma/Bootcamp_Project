@@ -2,6 +2,7 @@ package com.kshitz.kshitz.entities.orders;
 
 import com.kshitz.kshitz.entities.addresses.CustomerAddress;
 import com.kshitz.kshitz.entities.users.Customer;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -9,25 +10,25 @@ import java.util.List;
 @Document
 public class OrderBill {
 
-    private Integer id;
+    private String id;
 
     private Customer customer;
-
     private Double amountPaid;
     private String dateCreated;
     private String paymentMethod;
-
-
-    private CustomerAddress customerAddress;
-
-
+    private String city;
+    private String state;
+    private String country;
+    private String zipCode;
+    private String label;
+    @DBRef
     private List<OrderProduct> orderProducts;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,11 +64,51 @@ public class OrderBill {
         this.paymentMethod = paymentMethod;
     }
 
-    public CustomerAddress getCustomerAddress() {
-        return customerAddress;
+    public String getCity() {
+        return city;
     }
 
-    public void setCustomerAddress(CustomerAddress customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 }
