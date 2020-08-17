@@ -15,5 +15,6 @@ public interface CustomerAddressRepository extends CrudRepository<CustomerAddres
 
     List<CustomerAddress> findAllByCustomer(User user);
 
+
 }
 

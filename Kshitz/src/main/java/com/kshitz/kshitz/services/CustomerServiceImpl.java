@@ -154,19 +154,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String deleteCustomerAddress(String id, String username) {
         Customer customer = customerRepository.findByUsername(username);
-        Optional<CustomerAddress> customerAddress = customerAddressRepository.findById(id);
+        Optional<CustomerAddress> customerAddress = this.customerAddressRepository.findById(id);
         if (!customerAddress.isPresent()) {
-            throw new EntityNotFoundException(ADDRESS_ERROR);
+            throw new EntityNotFoundException("Address not found");
+        } else {
+            this.logger.debug("****************Address deleted successfully**************");
+            this.customerAddressRepository.deleteById(id);
         }
-        CustomerAddress customerAddress1 = customerAddress.get();
+        return "Address deleted successfully";
 
-        if (customerAddress1.getCustomer() == customer) {
-            customerAddressRepository.deleteById(id);
-            return "Address deleted";
         }
-        logger.debug("****************Address deleted successfully**************");
-        return "Address not found";
-    }
+
+
 
     @Override
     public String updateCustomerAddress(String id, AddressDto addressDto, String username) {

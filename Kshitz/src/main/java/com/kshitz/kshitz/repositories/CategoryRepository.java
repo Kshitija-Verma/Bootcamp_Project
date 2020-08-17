@@ -16,10 +16,7 @@ public interface CategoryRepository extends CrudRepository<Category,String> {
     List<Category> findAllCategory();
 @Query("{parent_id:null}")
     List<Category> findRootNode();
-@Query(value = "select * from category c1 LEFT JOIN category c2 ON c1.id = c2.parent_id where c2.parent_id IS NULL")
-    List<Category> findLeafNode();
-@Query(value ="select * from category c1 JOIN category c2 ON c2.parent_id=c1.id where c1.parent_id IS NOT NULL")
-    List<Category> findInnerNode();
+
 
     Category findByName(String name);
 

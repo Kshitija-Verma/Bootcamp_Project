@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CategoryMetadataFieldValueRepository extends CrudRepository<CategoryMetadataFieldValues,String> {
-   @Query(value = "select * from category_metadata_field_values where category_id IN (select c1.id from category c1 LEFT JOIN category c2 ON c1.id = c2.parent_id where c2.parent_id IS NULL) ")
-    List<CategoryMetadataFieldValues> findAllLeafCategory();
+
 
 
    @Query("{'categoryMetadataIdentity.categoryMetadataField.id' : ?0 , 'categoryMetadataIdentity.category.id' : ?1}")
